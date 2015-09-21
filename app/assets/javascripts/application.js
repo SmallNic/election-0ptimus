@@ -20,20 +20,61 @@ $(document).ready(function(){
   $('form').on("submit", function(event) {
       event.preventDefault();
       var valuesToSubmit = $(this).serialize();
-      console.log("valuesToSubmit =", valuesToSubmit)
+
+      first_name = $('form #first_name').val()
+      last_name = $('form #last_name').val()
+      address = $('form #address').val()
+      city = $('form #city').val()
+      state = $('form #state').val()
+      zip = $('form #zip').val()
+
       type = $(this).attr('method');
-      console.log("action", $(this).attr('action'))
-      console.log("method", type)
+      url = $(this).attr('action')
+
+      $(".errors").empty()
+
       $.ajax({
           type: type,
-          url: $(this).attr('action'), //sumbits it to the given url of the form
+          url: url,
           data: valuesToSubmit,
-          dataType: "JSON" // you want a difference between normal and ajax-calls, and json is standard
+          dataType: "JSON"
       }).success(function(json){
-          // $('#myModal').modal('hide');
           location.reload();
           console.log("success", json);
-      }).fail(function(){
+      }).fail(function( response, other, other2){
+          errors = JSON.parse(response.responseText)
+
+          $('form #first_name').val(first_name)
+          if (errors.first_name){
+            $('#first_name_div').append("<p class='errors'>"+errors.first_name+"</p>")
+          }
+
+          $('form #last_name').val(last_name)
+          if (errors.last_name){
+            $('#last_name_div').append("<p class='errors'>"+errors.last_name+"</p>")
+          }
+
+          $('form #address').val(address)
+          if (errors.address){
+            $('#address_div').append("<p class='errors'>"+errors.address+"</p>")
+          }
+
+          $('form #city').val(city)
+          if (errors.city){
+            $('#city_div').append("<p class='errors'>"+errors.city+"</p>")
+          }
+
+          $('form #state').val(state)
+          if (errors.state){
+            $('#state_div').append("<p class='errors'>"+errors.state+"</p>")
+          }
+
+          $('form #zip').val(zip)
+          if (errors.zip){
+            $('#zip_div').append("<p class='errors'>"+errors.zip+"</p>")
+          }
+
+          $('#myModal').modal('show');
 
           console.log("failure")
       });
@@ -64,8 +105,8 @@ $(document).ready(function(){
   });
 
   $('#new-voter').on('click', function(){
-    $('form').attr('method', 'post')
-    $('form').attr('action','voters')
+    $('form').attr('method', 'POST')
+    // $('form').attr('action','voters')
 
   })
 

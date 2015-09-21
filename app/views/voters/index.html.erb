@@ -1,5 +1,22 @@
 <div class="content-wrapper">
   <div class="container">
+    <% if @voter.errors.any? %>
+      <div id="error_explanation">
+        <h2><%= pluralize(@voter.errors.count, "error") %> prohibited this voter from being saved:</h2>
+
+        <ul>
+        <% @voter.errors.full_messages.each do |msg| %>
+          <div class="alert alert-warning"><li><%= msg %></li></div>
+        <% end %>
+        </ul>
+      </div>
+    <% end %>
+
+
+
+    <% flash.each do |key, value| %>
+      <div class="alert alert-<%= key %>"><%= value %></div>
+    <% end %>
 
     <div class="row">
       <div class="col-md-12">
@@ -56,103 +73,70 @@
 <div id="myModal" class="modal fade" role="dialog">
   <div class="modal-dialog">
     <div class="modal-content">
+
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal">&times;</button>
         <h4 class="modal-title">Add New Voter</h4>
       </div>
-      <div class="modal-body">
-        <% if @voter && @voter.errors.any? %>
-          <div id="error_explanation">
-            <h2><%= pluralize(@voter.errors.count, "error") %> prohibited this voter from being saved:</h2>
 
-            <ul>
-            <% @voter.errors.full_messages.each do |msg| %>
-              <li><%= msg %></li>
-            <% end %>
-            </ul>
-          </div>
-        <% end %>
+      <div class="modal-body">
         <%= form_for @voter, class:"form-horizontal", action:"voters" do |f| %>
           <div class="box-body">
+            <div class="row">
 
-            <div class="form-group">
+              <div class="form-group">
+                <%= f.label 'First Name:', class:'col-sm-2 control-label' %>
+                <div class="col-sm-4" id="first_name_div">
+                  <%= f.text_field :first_name, class:"form-control", id:"first_name", name:"first_name", placeholder:"First Name" %>
+                </div>
+                <%= f.label 'Last Name:', class:'col-sm-2 control-label' %>
+                <div class="col-sm-4" id="last_name_div">
+                  <%= f.text_field :last_name, class:"form-control", id:"last_name", name:"last_name", placeholder:"Last Name" %>
+                </div>
+              </div><!-- /.form-group -->
+            </div><!-- /.row -->
 
+            <div class="row">
+              <div class="form-group">
+                <%= f.label 'Address:', class:'col-sm-2 control-label' %>
+                <div class="col-sm-10" id="address_div">
+                  <%= f.text_field :address, class:"form-control", id:"address", name:"address", placeholder:"Address" %>
+                </div>
+              </div><!-- /.form-group -->
+            </div><!-- /.row -->
 
-              <!-- <label for="first_name" class="col-sm-2 control-label">First Name:</label> -->
-              <%= f.label 'First Name:', class:'col-sm-2 control-label' %><br />
-              <div class="col-sm-4">
-                <!-- <input type="text" class="form-control" id="first_name" name="first_name" placeholder="First Name"> -->
-                <%= f.text_field :first_name, class:"form-control", id:"first_name", name:"first_name", placeholder:"First Name" %>
+            <div class="row">
+              <div class="form-group">
+                <%= f.label 'City:', class:'col-sm-2 control-label' %>
+                <div class="col-sm-6" id="city_div">
+                  <%= f.text_field :city, class:"form-control", id:"city", name:"city", placeholder:"City" %>
+                </div>
 
-              </div>
-              <!-- <label for="last_name" class="col-sm-2 control-label">Last Name:</label> -->
-              <%= f.label 'Last Name:', class:'col-sm-2 control-label' %><br />
+                <%= f.label 'State:', class:'col-sm-2 control-label' %>
+                <div class="col-sm-2" id="state_div">
+                  <%= f.text_field :state, class:"form-control", id:"state", name:"state", placeholder:"State" %>
+                </div>
+              </div><!-- /.form-group -->
+            </div><!-- /.row -->
 
-              <div class="col-sm-4">
-                <!-- <input type="text" class="form-control" id="last_name" name="last_name" placeholder="Last Name"> -->
-                <%= f.text_field :last_name, class:"form-control", id:"last_name", name:"last_name", placeholder:"Last Name" %>
-
-              </div>
-            </div>
-
-            <div class="form-group">
-              <!-- <label for="address" class="col-sm-2 control-label">Address:</label> -->
-              <%= f.label 'Address:', class:'col-sm-2 control-label' %><br />
-
-              <div class="col-sm-10">
-                <!-- <input type="text" class="form-control" id="address" name="address" placeholder="Address"> -->
-                <%= f.text_field :address, class:"form-control", id:"address", name:"address", placeholder:"Address" %>
-
-              </div>
-            </div>
-
-            <div class="form-group">
-              <!-- <label for="city" class="col-sm-2 control-label">City:</label> -->
-              <%= f.label 'City:', class:'col-sm-2 control-label' %><br />
-
-              <div class="col-sm-6">
-                <!-- <input type="text" class="form-control" id="city"  name="city" placeholder="City"> -->
-                <%= f.text_field :city, class:"form-control", id:"city", name:"city", placeholder:"City" %>
-
-              </div>
-
-              <!-- <label for="state" class="col-sm-2 control-label">State:</label> -->
-              <%= f.label 'State:', class:'col-sm-2 control-label' %><br />
-
-              <div class="col-sm-2">
-                <!-- <input type="text" class="form-control" id="state" name="state" placeholder="State"> -->
-                <%= f.text_field :state, class:"form-control", id:"state", name:"state", placeholder:"State" %>
-
-              </div>
-            </div>
-            <div class="form-group">
-
-              <!-- <label for="zip_code" class="col-sm-2 control-label">Zip Code:</label> -->
-              <%= f.label 'Zip:', class:'col-sm-2 control-label' %><br />
-
-              <div class="col-sm-2">
-                <!-- <input type="integer" class="form-control" id="zip" name="zip" placeholder="Zip"> -->
-                <%= f.number_field :zip, class:"form-control", id:"zip", name:"zip", placeholder:"Zip" %>
-
-              </div>
-            </div>
+            <div class="row">
+              <div class="form-group">
+                <%= f.label 'Zip:', class:'col-sm-2 control-label' %>
+                <div class="col-sm-3" id="zip_div">
+                  <%= f.number_field :zip, class:"form-control", id:"zip", name:"zip", placeholder:"Zip" %>
+                </div>
+              </div><!-- /.form-group -->
+            </div><!-- /.row -->
 
           </div><!-- /.box-body -->
-          <div class="box-footer">
-            <!-- <button type="reset" class="btn btn-default">Clear</button>
-            <button type="submit" class="btn btn-info pull-right">Submit</button> -->
+        </div><!-- /.modal-body -->
 
-            <%= f.submit 'Clear', type:'reset', :class =>"btn btn-default" %>
-            <%= f.submit 'Submit', class:"btn btn-info pull-right" %>
+        <div class="modal-footer">
+          <%= f.submit 'Clear', type:'reset', :class =>"btn btn-default" %>
+          <%= f.submit 'Submit', class:"btn btn-info pull-right" %>
+        </div>
+      <% end %>
 
-
-          </div><!-- /.box-footer -->
-        <% end %>
-
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-      </div>
 
     </div><!-- End Modal Content  -->
   </div>
