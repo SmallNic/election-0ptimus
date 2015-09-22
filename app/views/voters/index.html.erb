@@ -1,23 +1,5 @@
 <div class="content-wrapper">
   <div class="container">
-    <% if @voter.errors.any? %>
-      <div id="error_explanation">
-        <h2><%= pluralize(@voter.errors.count, "error") %> prohibited this voter from being saved:</h2>
-
-        <ul>
-        <% @voter.errors.full_messages.each do |msg| %>
-          <div class="alert alert-warning"><li><%= msg %></li></div>
-        <% end %>
-        </ul>
-      </div>
-    <% end %>
-
-
-
-    <% flash.each do |key, value| %>
-      <div class="alert alert-<%= key %>"><%= value %></div>
-    <% end %>
-
     <div class="row">
       <div class="col-md-12">
         <div class="panel panel-default">
@@ -26,9 +8,8 @@
             <button type="button" id="new-voter" class="btn btn-info btn-sm pull-right" data-toggle="modal" data-target="#myModal"><i class="fa fa-plus-circle"> Add New Voter</i></button>
           </div>
           <div class="panel-body">
+
             <div class="table-responsive">
-
-
               <table class="table table-bordered table-hover">
                 <thead>
                   <tr>
@@ -59,6 +40,7 @@
                 </tbody>
               </table>
             </div><!-- End Table-Responsive  -->
+
           </div><!-- End Panel Body  -->
 
           <div class="panel-footer">
@@ -68,10 +50,8 @@
         </div><!-- End Panel  -->
       </div><!-- End Col -->
     </div><!-- End Row -->
-
   </div><!-- End Container -->
 </div><!-- End Content-Wrapper -->
-
 
 
 <!-- Modal -->
@@ -142,7 +122,6 @@
         </div>
       <% end %>
 
-
     </div><!-- End Modal Content  -->
-  </div>
+  </div><!-- End Modal Dialog -->
 </div> <!-- End Modal  -->
