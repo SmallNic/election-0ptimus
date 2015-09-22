@@ -1,5 +1,6 @@
 source 'https://rubygems.org'
 
+gem 'will_paginate', '~> 3.0.6'
 # An IRB alternative and runtime developer console
 gem 'pry'
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
